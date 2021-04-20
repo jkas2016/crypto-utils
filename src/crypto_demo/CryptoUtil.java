@@ -39,6 +39,15 @@ public class CryptoUtil implements Serializable, Cloneable {
         return CryptoSupply.ENCODER;
     }
 
+    /**
+     * AES 암호화
+     * <pre>
+     *     mode: ECB, padding: PKCS5Padding
+     * </pre>
+     *
+     * @param plainText String
+     * @return encrypt hex string
+     */
     public String encrypt( String plainText ) throws Exception {
         if( plainText == null || plainText.isEmpty() ) {
             return plainText;
@@ -57,6 +66,15 @@ public class CryptoUtil implements Serializable, Cloneable {
         return asHex( encrypted );
     }
 
+    /**
+     * AES 복호화
+     * <pre>
+     *     mode: ECB, padding: PKCS5Padding
+     * </pre>
+     *
+     * @param cipherText encrypt hex string
+     * @return plainText
+     */
     public String decrypt( String cipherText ) throws Exception {
         if( cipherText == null || cipherText.isEmpty() ) {
             return cipherText;
