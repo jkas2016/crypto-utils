@@ -33,41 +33,36 @@ public class CryptoUtils implements Serializable, Cloneable {
      * @param key passphrase
      * @return CryptoUtil.class
      */
-    public static CryptoUtils getInstance( String algorithm, String key ) throws NoSuchAlgorithmException, DigestException {
+    public static CryptoUtils getInstance( Algorithm algorithm, String key ) throws NoSuchAlgorithmException, DigestException {
         byte[] rgbSalt = {
-                ( byte )66, ( byte )33, ( byte )18, ( byte )110,
-                ( byte )32, ( byte )77, ( byte )101, ( byte )100,
-                ( byte )118, ( byte )165, ( byte )51, ( byte )101, ( byte )66
+                ( byte ) 66, ( byte ) 33, ( byte ) 18, ( byte ) 110,
+                ( byte ) 32, ( byte ) 77, ( byte ) 101, ( byte ) 100,
+                ( byte ) 118, ( byte ) 165, ( byte ) 51, ( byte ) 101, ( byte ) 66
         };
 
         PasswordDeriveBytes deriveBytes = new PasswordDeriveBytes( key, rgbSalt );
         int cb1 = 32, cb2 = 16;
-        switch( algorithm ) {
-            case "DES":
-                CryptoSupply.ENCODER.transform = "DES/CBC/PKCS5Padding";
-                cb1 = 8;
-                cb2 = 8;
-                CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes2( cb1 ), "DES" );
-                break;
-            case "RC2":
-                CryptoSupply.ENCODER.transform = "RC2/CBC/PKCS5Padding";
-                cb1 = 16;
-                cb2 = 8;
-                CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes( cb1 ), "RC2" );
-                break;
-            case "TripleDES":
-                CryptoSupply.ENCODER.transform = "DESede/CBC/PKCS5Padding";
-                cb1 = 24;
-                cb2 = 8;
-                CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes2( cb1 ), "DESede" );
-                break;
-            default:
-                CryptoSupply.ENCODER.transform = "AES/CBC/PKCS5Padding";
-                CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes( cb1 ), "AES" );
-                break;
+        if( Algorithm.DES == algorithm ) {
+            CryptoSupply.ENCODER.transform = "DES/CBC/PKCS5Padding";
+            cb1 = 8;
+            cb2 = 8;
+            CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes2( cb1 ), "DES" );
+        } else if( Algorithm.RC2 == algorithm ) {
+            CryptoSupply.ENCODER.transform = "RC2/CBC/PKCS5Padding";
+            cb1 = 16;
+            cb2 = 8;
+            CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes( cb1 ), "RC2" );
+        } else if( Algorithm.TripleDES == algorithm ) {
+            CryptoSupply.ENCODER.transform = "DESede/CBC/PKCS5Padding";
+            cb1 = 24;
+            cb2 = 8;
+            CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes2( cb1 ), "DESede" );
+        } else {
+            CryptoSupply.ENCODER.transform = "AES/CBC/PKCS5Padding";
+            CryptoSupply.ENCODER.secret = new SecretKeySpec( deriveBytes.getBytes( cb1 ), "AES" );
         }
 
-        if( algorithm.equals( "TripleDES" ) || algorithm.equals( "DES" ) ) {
+        if( Algorithm.TripleDES == algorithm || Algorithm.DES == algorithm ) {
             CryptoSupply.ENCODER.ivspec = new IvParameterSpec( deriveBytes.getBytes2( cb2 ) );
         } else {
             CryptoSupply.ENCODER.ivspec = new IvParameterSpec( deriveBytes.getBytes( cb2 ) );
@@ -120,6 +115,20 @@ public class CryptoUtils implements Serializable, Cloneable {
 
     private Object readResolve() throws ObjectStreamException {
         return CryptoSupply.ENCODER;
+    }
+
+    public enum Algorithm {
+        AES,
+        AES_INTERN,
+        DES,
+        RC2,
+        TripleDES,
+        Rijndael;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
     }
 
 }

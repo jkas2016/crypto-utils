@@ -12,7 +12,7 @@ public class Main {
         String prodkey = "akzkfhdt34^^uiopakzkfhdt12^^qwer";
 
         String org = "명노건asdfasdfasdfasdf";
-        CryptoUtils encoder = CryptoUtils.getInstance( "AES", prodkey );
+        CryptoUtils encoder = CryptoUtils.getInstance( CryptoUtils.Algorithm.AES, prodkey );
 
         String encStr2 = encoder.encrypt( org );
         System.out.println( "AES256 암호화 -> { " + encStr2 + " }" );
