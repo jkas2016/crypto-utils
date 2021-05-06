@@ -9,16 +9,15 @@ public class Main {
         // AES256 -> 암호화
         @SuppressWarnings( "unused" )
         String devkey = "macaront12^^qwermacaront34^^uiop";
-        @SuppressWarnings( "unused" )
         String prodkey = "akzkfhdt34^^uiopakzkfhdt12^^qwer";
 
-        String org = "명노건";
-        CryptoUtil encoder = CryptoUtil.getInstance( prodkey );
+        String org = "명노건asdfasdfasdfasdf";
+        CryptoUtils encoder = CryptoUtils.getInstance( "AES", prodkey );
 
         String encStr2 = encoder.encrypt( org );
         System.out.println( "AES256 암호화 -> { " + encStr2 + " }" );
 
-        String encStr3 = encoder.decrypt( org );
+        String encStr3 = encoder.decrypt( encStr2 );
         System.out.println( "AES256 복호화 -> { " + encStr3 + " }" );
     }
 
