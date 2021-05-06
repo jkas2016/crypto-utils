@@ -77,10 +77,7 @@ public class CryptoUtils implements Serializable, Cloneable {
     }
 
     /**
-     * AES 암호화
-     * <pre>
-     *     mode: ECB, padding: PKCS5Padding
-     * </pre>
+     * 암호화
      *
      * @param plainText String
      * @return encrypt hex string
@@ -98,10 +95,7 @@ public class CryptoUtils implements Serializable, Cloneable {
     }
 
     /**
-     * AES 복호화
-     * <pre>
-     *     mode: ECB, padding: PKCS5Padding
-     * </pre>
+     * 복호화
      *
      * @param cipherText encrypt hex string
      * @return plainText
