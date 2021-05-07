@@ -10,9 +10,10 @@ public class Main {
         @SuppressWarnings( "unused" )
         String devkey = "macaront12^^qwermacaront34^^uiop";
         String prodkey = "akzkfhdt34^^uiopakzkfhdt12^^qwer";
+        // "X9NwRMU8uLjrW882gMQ1QSaWzmDF_Dz-MmmBLqtyymw="
 
         String org = "명노건asdfasdfasdfasdf";
-        CryptoUtils encoder = CryptoUtils.getInstance( CryptoUtils.Algorithm.AES, prodkey );
+        AESUtil encoder = AESUtil.getInstance( prodkey );
 
         String encStr2 = encoder.encrypt( org );
         System.out.println( "AES256 암호화 -> { " + encStr2 + " }" );
